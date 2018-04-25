@@ -12,7 +12,13 @@ import { EffectsModule } from '@ngrx/effects';
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
-
+// Firebase setup
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { environment } from '../environments/environment';
+import { ProductService} from './orders/services/product.service';
+//Oscar, pls, re-arrange this
+import { ProductModel } from './orders/models/product.model';
 // export const metaReducers: MetaReducer<any>[] = !environment.production
 //   ? [storeFreeze]
 //   : [];
@@ -30,7 +36,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './nagivation/header/header.component';
 import { SidenavListComponent } from './nagivation/sidenav-list/sidenav-list.component';
-import { environment } from '../environments/environment';
+//import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -39,7 +45,7 @@ import { environment } from '../environments/environment';
     LoginComponent,
     WelcomeComponent,
     HeaderComponent,
-    SidenavListComponent,
+    SidenavListComponent
   ],
   imports: [
     BrowserModule,
@@ -54,9 +60,11 @@ import { environment } from '../environments/environment';
     FlexLayoutModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule,
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
-  providers: [],
+  providers: [ProductService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
